@@ -433,22 +433,22 @@ code {
 <h3 id="schema">Schema</h3>
 <h4 id="config-schema">Config-Schema</h4>
 <pre class="hljs"><code><div>{
-	<span class="hljs-attr">"config-name"</span>: <span class="hljs-string">""</span>,                   <span class="hljs-comment">// Required: Name of the configuration.</span>
-	<span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"string"</span>, 
-	<span class="hljs-attr">"config-type"</span>: <span class="hljs-string">"JSON/YAML"</span>,           <span class="hljs-comment">// Required: Type of configuration, either "JSON" or "YAML".</span>
-	<span class="hljs-attr">"config-schema"</span>: {                   <span class="hljs-comment">// Required: JSON/XSD schema for the configuration.</span>
-		[Refer: JSON Config-Schema Contract]
-	},
-	<span class="hljs-attr">"config-data"</span>: {                     <span class="hljs-comment">// Required: Actual configuration data.</span>
-		[Refer: Config-Data]
-	}
+  <span class="hljs-attr">"config-name"</span>: <span class="hljs-string">""</span>, <span class="hljs-comment">// Required: Name of the configuration.</span>
+  <span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"string"</span>,
+  <span class="hljs-attr">"consumer"</span>: [<span class="hljs-string">"user-1"</span>, <span class="hljs-string">"user-2"</span>],
+  <span class="hljs-attr">"config-schema"</span>: { <span class="hljs-comment">// Required: JSON/XSD schema for the configuration.</span>
+    <span class="hljs-attr">"[Refer: JSON Config-Schema Contract]"</span>: <span class="hljs-literal">null</span>
+  },
+  <span class="hljs-attr">"config-data"</span>: { <span class="hljs-comment">// Required: Actual configuration data.</span>
+    <span class="hljs-attr">"[Refer: Config-Data]"</span>: <span class="hljs-literal">null</span>
+  }
 }
 </div></code></pre>
 <p><strong>Explanation</strong>:</p>
 <ul>
 <li><code>&quot;config-name&quot;</code>: Represents the name of the configuration. It is a required field.</li>
 <li><code>&quot;notification-topic&quot;</code>: Represents the string indicating the notification topic.</li>
-<li><code>&quot;config-type&quot;</code>: Indicates the type of configuration, which can be either &quot;JSON&quot; or &quot;YAML&quot;. It is a required field.</li>
+<li><code>&quot;consumer&quot;</code>: An array containing the consumers, possibly users, who are related to this configuration (e.g., &quot;user-1&quot; and &quot;user-2&quot;).</li>
 <li><code>&quot;config-schema&quot;</code>: Represents the JSON/XSD schema for the configuration. It is a required field.</li>
 <li><code>&quot;config&quot;</code>: Represents the actual configuration data. It is a required field.</li>
 </ul>
@@ -540,13 +540,12 @@ code {
 <h4 id="post---config">POST - <code>/config</code></h4>
 <p>Creates a new configuration.</p>
 <blockquote>
-<p>This is an Admin - Write operation.</p>
+<p><em><strong>This is an Admin - Write operation.</strong></em></p>
 </blockquote>
 <h5 id="request">Request</h5>
 <pre class="hljs"><code><div>{
 	<span class="hljs-attr">"config-name"</span>: <span class="hljs-string">"ExampleConfig"</span>,         <span class="hljs-comment">// Required: Unique name of the configuration.</span>
 	<span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"exampleTopic"</span>,  <span class="hljs-comment">// Optional: Notification topic.</span>
-	<span class="hljs-attr">"config-type"</span>: <span class="hljs-string">"JSON"</span>,                  <span class="hljs-comment">// Required: Type of configuration, either "JSON" or "YAML".</span>
 	<span class="hljs-attr">"config-schema"</span>: {
 		<span class="hljs-comment">// [JSON/YAML schema contract]</span>
 	},
@@ -560,20 +559,18 @@ code {
 <pre class="hljs"><code><div>{
 	<span class="hljs-attr">"status"</span>: <span class="hljs-string">"success"</span>,
 	<span class="hljs-attr">"message"</span>: <span class="hljs-string">"Configuration 'ExampleConfig' created successfully."</span>,
-	<span class="hljs-attr">"config-id"</span>: <span class="hljs-string">"123456"</span>,
 	<span class="hljs-attr">"timestamp"</span>: <span class="hljs-string">"2024-01-02T12:34:56Z"</span>
 }
 </div></code></pre>
 <h4 id="put---configconfig-name">PUT - <code>/config/{config-name}</code></h4>
 <p>Update an existing configuration.</p>
 <blockquote>
-<p>This is an Admin - Write operation.</p>
+<p><em><strong>This is an Admin - Write operation.</strong></em></p>
 </blockquote>
 <h5 id="request">Request</h5>
 <pre class="hljs"><code><div>{
 	<span class="hljs-attr">"config-name"</span>: <span class="hljs-string">"ExampleConfig"</span>,         <span class="hljs-comment">// Required: Unique name of the configuration.</span>
 	<span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"exampleTopic"</span>,   <span class="hljs-comment">// Optional: New notification topic.</span>
-	<span class="hljs-attr">"config-type"</span>: <span class="hljs-string">"JSON"</span>,                   <span class="hljs-comment">// Optional: New type of configuration.</span>
 	<span class="hljs-attr">"config-schema"</span>: {
 		<span class="hljs-comment">// Optional: New JSON/YAML schema for the configuration.</span>
 	},
@@ -589,57 +586,41 @@ code {
 <pre class="hljs"><code><div>{
 	<span class="hljs-attr">"status"</span>: <span class="hljs-string">"success"</span>,
 	<span class="hljs-attr">"message"</span>: <span class="hljs-string">"Configuration 'ExampleConfig' updated successfully."</span>,
-	<span class="hljs-attr">"config-id"</span>: <span class="hljs-string">"123456"</span>,
 	<span class="hljs-attr">"timestamp"</span>: <span class="hljs-string">"2024-01-02T12:34:56Z"</span>
 }
 </div></code></pre>
+<blockquote>
+<p><em><strong>The config will be validated against the config-schema for every Write operation.</strong></em></p>
+</blockquote>
 <h4 id="get---config">GET - <code>/config</code></h4>
 <p>Retrieves the list of configuration details for all services.</p>
 <blockquote>
-<p>Read operation is not restricted to Admin Role.</p>
+<p><em><strong>Read operation is not restricted to Admin Role.</strong></em></p>
 </blockquote>
 <h6 id="success-response-http-status-code-200-ok">Success Response (HTTP Status Code: 200 OK)</h6>
 <pre class="hljs"><code><div>[
-    {
-        <span class="hljs-attr">"config-name"</span>: <span class="hljs-string">"ExampleConfig_1"</span>,
-        <span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"exampleTopic_1"</span>,
-        <span class="hljs-attr">"config-type"</span>: <span class="hljs-string">"JSON"</span>,
-        <span class="hljs-attr">"config-schema"</span>: {
-            <span class="hljs-comment">// [JSON/YAML schema contract]</span>
-        },
-        <span class="hljs-attr">"config"</span>: {
-            <span class="hljs-attr">"property1"</span>: <span class="hljs-string">"value1"</span>,
-            <span class="hljs-attr">"property2"</span>: <span class="hljs-number">42</span>
-        }
-    },
-	{
-        <span class="hljs-attr">"config-name"</span>: <span class="hljs-string">"ExampleConfig_2"</span>,
-        <span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"exampleTopic_2"</span>,
-        <span class="hljs-attr">"config-type"</span>: <span class="hljs-string">"JSON"</span>,
-        <span class="hljs-attr">"config-schema"</span>: {
-            <span class="hljs-comment">// [JSON/YAML schema contract]</span>
-        },
-        <span class="hljs-attr">"config"</span>: {
-            <span class="hljs-attr">"property1"</span>: <span class="hljs-string">"value1"</span>,
-            <span class="hljs-attr">"property2"</span>: <span class="hljs-number">42</span>
-        }
-    }
-    <span class="hljs-comment">// Add more configurations as needed</span>
+   {
+      <span class="hljs-attr">"config"</span>:{
+         <span class="hljs-attr">"property1"</span>:<span class="hljs-string">"value1"</span>,
+         <span class="hljs-attr">"property2"</span>:<span class="hljs-number">42</span>
+      }
+   },
+   {
+      <span class="hljs-attr">"config"</span>:{
+         <span class="hljs-attr">"property1"</span>:<span class="hljs-string">"value1"</span>,
+         <span class="hljs-attr">"property2"</span>:<span class="hljs-number">43</span>
+      }
+   }
+   <span class="hljs-comment">// returns more configurations as needed</span>
 ]
 </div></code></pre>
 <h4 id="get-configconfig-name">GET <code>/config/{config-name}</code></h4>
 <p>Returns configuration basis configuration name</p>
 <blockquote>
-<p>Read operation is not restricted to Admin Role.</p>
+<p><em><strong>Read operation is not restricted to Admin Role.</strong></em></p>
 </blockquote>
 <h6 id="success-response-http-status-code-200-ok">Success Response (HTTP Status Code: 200 OK)</h6>
 <pre class="hljs"><code><div>{
-	<span class="hljs-attr">"config-name"</span>: <span class="hljs-string">"ExampleConfig"</span>,         <span class="hljs-comment">// Required: Unique name of the configuration.</span>
-	<span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"exampleTopic"</span>,   <span class="hljs-comment">// Optional: New notification topic.</span>
-	<span class="hljs-attr">"config-type"</span>: <span class="hljs-string">"JSON"</span>,                   <span class="hljs-comment">// Optional: New type of configuration.</span>
-	<span class="hljs-attr">"config-schema"</span>: {
-		<span class="hljs-comment">// Optional: New JSON/YAML schema for the configuration.</span>
-	},
 	<span class="hljs-attr">"config"</span>: {
 		<span class="hljs-comment">// Verify config with schema (new if present or else compare with old)</span>
 		<span class="hljs-attr">"property1"</span>: <span class="hljs-string">"new_value1"</span>,
@@ -648,18 +629,12 @@ code {
 }
 </div></code></pre>
 <h4 id="get-configsearch-criteria">GET <code>/config/{search-criteria}</code></h4>
-<p>Returns configuration basis configuration name</p>
+<p>Returns configuration basis configuration name.</p>
 <blockquote>
-<p>Read operation is not restricted to Admin Role.</p>
+<p><em><strong>Read operation is not restricted to Admin Role.</strong></em></p>
 </blockquote>
 <h6 id="success-response-http-status-code-200-ok">Success Response (HTTP Status Code: 200 OK)</h6>
 <pre class="hljs"><code><div>{
-	<span class="hljs-attr">"config-name"</span>: <span class="hljs-string">"ExampleConfig"</span>,         <span class="hljs-comment">// Required: Unique name of the configuration.</span>
-	<span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"exampleTopic"</span>,   <span class="hljs-comment">// Optional: New notification topic.</span>
-	<span class="hljs-attr">"config-type"</span>: <span class="hljs-string">"JSON"</span>,                   <span class="hljs-comment">// Optional: New type of configuration.</span>
-	<span class="hljs-attr">"config-schema"</span>: {
-		<span class="hljs-comment">// Optional: New JSON/YAML schema for the configuration.</span>
-	},
 	<span class="hljs-attr">"config"</span>: {
 		<span class="hljs-comment">// Verify config with schema (new if present or else compare with old)</span>
 		<span class="hljs-attr">"property1"</span>: <span class="hljs-string">"new_value1"</span>,
@@ -667,9 +642,12 @@ code {
 	}
 }
 </div></code></pre>
+<blockquote>
+<p><em><strong>Search criteria involve the configuration name &quot;ExampleConfig,&quot; an optional notification topic &quot;exampleTopic,&quot; and specific property values &quot;new_value1&quot; for &quot;property1&quot; and 99 for &quot;property2&quot;</strong></em></p>
+</blockquote>
 <h3 id="master-metadata-schema-api-contract">Master Metadata Schema API Contract</h3>
-<p><strong>POST <code>/master-data/meta-data</code></strong>
-Creates a new master meta-data.</p>
+<h4 id="post-master-datameta-data"><strong>POST <code>/master-data/meta-data</code></strong></h4>
+<p>Creates a new master meta-data.</p>
 <h5 id="request">Request:</h5>
 <pre class="hljs"><code><div>{
     <span class="hljs-attr">"master-data-name"</span>: <span class="hljs-string">"exampleMasterData"</span>,
@@ -686,11 +664,10 @@ Creates a new master meta-data.</p>
 <pre class="hljs"><code><div>{
 	<span class="hljs-attr">"status"</span>: <span class="hljs-string">"success"</span>,
 	<span class="hljs-attr">"message"</span>: <span class="hljs-string">"Configuration 'exampleMasterData' created successfully."</span>,
-	<span class="hljs-attr">"master-id"</span>: <span class="hljs-string">"123456"</span>,
 	<span class="hljs-attr">"timestamp"</span>: <span class="hljs-string">"2024-01-02T12:34:56Z"</span>
 }
 </div></code></pre>
-<p><strong>PUT <code>/master-data/meta-data/{master-data-name}</code></strong></p>
+<h4 id="put-master-datameta-datamaster-data-name"><strong>PUT <code>/master-data/meta-data/{master-data-name}</code></strong></h4>
 <h5 id="request">Request:</h5>
 <pre class="hljs"><code><div>{
     <span class="hljs-attr">"schema"</span>: [
@@ -709,7 +686,7 @@ Creates a new master meta-data.</p>
 	<span class="hljs-attr">"timestamp"</span>: <span class="hljs-string">"2024-01-02T12:45:00Z"</span>
 }
 </div></code></pre>
-<p><strong>DELETE <code>/master-data/meta-data/{master-data-name}</code></strong></p>
+<h4 id="delete-master-datameta-datamaster-data-name"><strong>DELETE <code>/master-data/meta-data/{master-data-name}</code></strong></h4>
 <h5 id="response">Response</h5>
 <pre class="hljs"><code><div>{
 	<span class="hljs-attr">"status"</span>: <span class="hljs-string">"success"</span>,
@@ -717,8 +694,8 @@ Creates a new master meta-data.</p>
 	<span class="hljs-attr">"timestamp"</span>: <span class="hljs-string">"2024-01-02T13:00:00Z"</span>
 }
 </div></code></pre>
-<p><strong>GET <code>/master-data/{meta-data-name}</code></strong>
-Retrieves all paginated entries in meta-data.collection-name</p>
+<h4 id="get-master-datameta-data-name"><strong>GET <code>/master-data/{meta-data-name}</code></strong></h4>
+<p>Retrieves all paginated entries in meta-data.collection-name</p>
 <h5 id="response">Response</h5>
 <pre class="hljs"><code><div>{
     <span class="hljs-attr">"status"</span>: <span class="hljs-string">"success"</span>,
@@ -737,8 +714,8 @@ Retrieves all paginated entries in meta-data.collection-name</p>
     }
 }
 </div></code></pre>
-<p><strong>GET <code>/master-data/{meta-data-name}/{ID}</code></strong>
-Retrieve an entry from the master data collection filtered by the provided ID.</p>
+<h4 id="get-master-datameta-data-nameid"><strong>GET <code>/master-data/{meta-data-name}/{ID}</code></strong></h4>
+<p>Retrieve an entry from the master data collection filtered by the provided ID.</p>
 <h5 id="response">Response</h5>
 <pre class="hljs"><code><div>{
     <span class="hljs-attr">"status"</span>: <span class="hljs-string">"success"</span>,
