@@ -544,16 +544,18 @@ code {
 </blockquote>
 <h5 id="request">Request</h5>
 <pre class="hljs"><code><div>{
-	<span class="hljs-attr">"config-name"</span>: <span class="hljs-string">"ExampleConfig"</span>,         <span class="hljs-comment">// Required: Unique name of the configuration.</span>
-	<span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"exampleTopic"</span>,  <span class="hljs-comment">// Optional: Notification topic.</span>
-	<span class="hljs-attr">"config-schema"</span>: {
-		<span class="hljs-comment">// [JSON/YAML schema contract]</span>
-	},
-	<span class="hljs-attr">"config"</span>: {
-		<span class="hljs-attr">"property1"</span>: <span class="hljs-string">"value1"</span>,
-		<span class="hljs-attr">"property2"</span>: <span class="hljs-number">42</span>
-	}
+  <span class="hljs-attr">"config-name"</span>: <span class="hljs-string">"ExampleConfig"</span>,         <span class="hljs-comment">// Required: Unique name of the configuration.</span>
+  <span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"exampleTopic"</span>,   <span class="hljs-comment">// Optional: Notification topic.</span>
+  <span class="hljs-attr">"consumer"</span>: [<span class="hljs-string">"user-1"</span>, <span class="hljs-string">"user-2"</span>],       <span class="hljs-comment">// Optional: consumer.</span>
+  <span class="hljs-attr">"config-schema"</span>: {
+    <span class="hljs-comment">// [JSON/YAML schema contract]</span>
+  },
+  <span class="hljs-attr">"config"</span>: {
+    <span class="hljs-attr">"property1"</span>: <span class="hljs-string">"value1"</span>,
+    <span class="hljs-attr">"property2"</span>: <span class="hljs-number">42</span>
+  }
 }
+
 </div></code></pre>
 <h5 id="response">Response</h5>
 <pre class="hljs"><code><div>{
@@ -569,17 +571,18 @@ code {
 </blockquote>
 <h5 id="request">Request</h5>
 <pre class="hljs"><code><div>{
-	<span class="hljs-attr">"config-name"</span>: <span class="hljs-string">"ExampleConfig"</span>,         <span class="hljs-comment">// Required: Unique name of the configuration.</span>
-	<span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"exampleTopic"</span>,   <span class="hljs-comment">// Optional: New notification topic.</span>
-	<span class="hljs-attr">"config-schema"</span>: {
-		<span class="hljs-comment">// Optional: New JSON/YAML schema for the configuration.</span>
-	},
-	<span class="hljs-attr">"config"</span>: {
-		<span class="hljs-comment">// Verify config with schema (new if present or else compare with old)</span>
-		<span class="hljs-attr">"property1"</span>: <span class="hljs-string">"new_value1"</span>,
-		<span class="hljs-attr">"property2"</span>: <span class="hljs-number">99</span>
-	}
+  <span class="hljs-attr">"config-name"</span>: <span class="hljs-string">"ExampleConfig"</span>,         <span class="hljs-comment">// Required: Unique name of the configuration.</span>
+  <span class="hljs-attr">"notification-topic"</span>: <span class="hljs-string">"exampleTopic"</span>,   <span class="hljs-comment">// Optional: Notification topic.</span>
+  <span class="hljs-attr">"consumer"</span>: [<span class="hljs-string">"user-1"</span>, <span class="hljs-string">"user-2"</span>],
+  <span class="hljs-attr">"config-schema"</span>: {
+    <span class="hljs-comment">// [JSON/YAML schema contract]</span>
+  },
+  <span class="hljs-attr">"config"</span>: {
+    <span class="hljs-attr">"property1"</span>: <span class="hljs-string">"value1"</span>,
+    <span class="hljs-attr">"property2"</span>: <span class="hljs-number">42</span>
+  }
 }
+
 </div></code></pre>
 <p>The API responds with a JSON object indicating the status and result of the update operation.</p>
 <h6 id="success-response-http-status-code-200-ok">Success Response (HTTP Status Code: 200 OK)</h6>
